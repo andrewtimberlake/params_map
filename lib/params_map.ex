@@ -48,6 +48,20 @@ defmodule ParamsMap do
     take(keys, params, acc)
   end
 
+  def has_key?(params, key) when is_atom(key) do
+    Map.has_key?(params, to_key(params, key))
+  end
+
+  def drop(params, keys) when is_map(params) and is_list(keys) do
+    keys =
+      case key_type(params) do
+        :atom -> keys
+        :binary -> Enum.map(keys, &to_string/1)
+      end
+
+    Map.drop(params, keys)
+  end
+
   def clean_embeds(params) do
     Map.new(params, fn
       {key, value} when is_map(value) ->

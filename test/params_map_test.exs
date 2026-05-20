@@ -38,6 +38,22 @@ defmodule ParamsMapTest do
     assert ParamsMap.merge(%{"a" => 1}, %{"b" => 2}) == %{"a" => 1, "b" => 2}
   end
 
+  test "has_key/2" do
+    assert ParamsMap.has_key?(%{a: 1}, :a) == true
+    assert ParamsMap.has_key?(%{a: 1}, :b) == false
+    assert ParamsMap.has_key?(%{"a" => 1}, :a) == true
+    assert ParamsMap.has_key?(%{"a" => 1}, :b) == false
+  end
+
+  test "drop/2" do
+    assert ParamsMap.drop(%{a: 1, b: 2}, [:a]) == %{b: 2}
+    assert ParamsMap.drop(%{a: 1, b: 2}, [:b]) == %{a: 1}
+    assert ParamsMap.drop(%{a: 1, b: 2}, [:c]) == %{a: 1, b: 2}
+    assert ParamsMap.drop(%{"a" => 1, "b" => 2}, [:a]) == %{"b" => 2}
+    assert ParamsMap.drop(%{"a" => 1, "b" => 2}, [:b]) == %{"a" => 1}
+    assert ParamsMap.drop(%{"a" => 1, "b" => 2}, [:c]) == %{"a" => 1, "b" => 2}
+  end
+
   test "clean_embeds" do
     assert ParamsMap.clean_embeds(%{
              "amount" => "-20.00",
