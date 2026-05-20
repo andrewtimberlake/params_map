@@ -87,7 +87,7 @@ defmodule ParamsMap do
 
   defp key_type(params) do
     case :maps.next(:maps.iterator(params)) do
-      :none -> :atom
+      :none -> :binary
       {key, _, _} when is_atom(key) -> :atom
       {key, _, _} when is_binary(key) -> :binary
       nil -> raise "params maps should have either atoms or binaries as keys"

@@ -10,13 +10,13 @@ defmodule ParamsMapTest do
   end
 
   test "put/3" do
+    assert ParamsMap.put(%{}, :b, 2) == %{"b" => 2}
     assert ParamsMap.put(%{a: 1}, :b, 2) == %{a: 1, b: 2}
-    assert ParamsMap.put(%{}, :b, 2) == %{b: 2}
     assert ParamsMap.put(%{"a" => 1}, :b, 2) == %{"a" => 1, "b" => 2}
   end
 
   test "update/4" do
-    assert ParamsMap.update(%{}, :a, 2, fn x -> x + 1 end) == %{a: 2}
+    assert ParamsMap.update(%{}, :a, 2, fn x -> x + 1 end) == %{"a" => 2}
     assert ParamsMap.update(%{a: 1}, :a, 2, fn x -> x + 1 end) == %{a: 2}
     assert ParamsMap.update(%{a: 1}, :b, 2, fn x -> x + 1 end) == %{a: 1, b: 2}
     assert ParamsMap.update(%{a: 1, b: 2}, :b, 2, fn x -> x + 1 end) == %{a: 1, b: 3}
@@ -31,7 +31,7 @@ defmodule ParamsMapTest do
   end
 
   test "merge/2" do
-    assert ParamsMap.merge(%{}, %{b: 2}) == %{b: 2}
+    assert ParamsMap.merge(%{}, %{b: 2}) == %{"b" => 2}
     assert ParamsMap.merge(%{a: 1}, %{b: 2}) == %{a: 1, b: 2}
     assert ParamsMap.merge(%{"a" => 1}, %{b: 2}) == %{"a" => 1, "b" => 2}
     assert ParamsMap.merge(%{a: 1}, %{"b" => 2}) == %{"a" => 1, "b" => 2}
